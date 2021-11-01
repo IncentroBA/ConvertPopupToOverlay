@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget id="incentro.convertpopuptooverlay.ConvertPopupToOverlay" pluginWidget="true" needsEntityContext="true" offlineCapable="true"
+        supportedPlatform="Web"
+        xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>Convert Popup To Overlay</name>
+    <description>Convert a regular popup to overlay/drawer style</description>
+    <icon>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAAEEfUpiAAAACXBIWXMAAAsSAAALEgHS3X78AAABaElEQVRYhe2WsXWDMBCGT9gNBRU1LQygCioGYA4YgAW8AAPAHPTQ0cAC7MAM+EmJeJKAXBQl8XPi7z09gSxO/8m6O5E8z1cAgKZpWAdXeGddV3Wgqip1oCzLtwdmg1LK5vO2s+HoNhzdxqaDMU0TjOMIMg4g7Ca0bcub4KpPyLJMeVc0iP04XSJNU+6f3MxF6lwopTcxtiwLb8MwACEEgiDYexFFEe/jOOY96iaqQdkHGfa/eJ4HXdfZeYmx80GnKIptpK7r3e+ogaOPfteFeZ6V9zAMzQzoH+hYu3B6Do5i44gPXRC54XR1QuxdeLyB/3CURVaX2YrDZwzIk7+kQM7zLBH6vm9mQA4m13XNFfx4ND7ewGk+OIPVC9ZYqcRqBrr4d6QDW14C0DjA0MueAIufvyNAv4+ZYi3gKF0fkSTJdquUsRaApXuM548CuejrsN3BDqO1AOzSgPHKhM97CPu+5+XUCgC4A5bffjJ8AUc/AAAAAElFTkSuQmCC</icon>
+    <properties>
+        <propertyGroup caption="General">
+            <property key="position" type="enumeration" defaultValue="right">
+                <caption>Overlay position</caption>
+                <description>Orientation for the overlay</description>
+                <enumerationValues>
+                    <enumerationValue key="top">top</enumerationValue>
+                    <enumerationValue key="right">right</enumerationValue>
+                    <enumerationValue key="bottom">bottom</enumerationValue>
+                    <enumerationValue key="left">left</enumerationValue>
+                </enumerationValues>
+            </property>
+            <property key="size" type="integer" defaultValue="600">
+                <caption>Overlay size</caption>
+                <description>In pixels. For horizontal overlays it's a width, for vertical it's used as height.</description>
+            </property>
+            <property key="showHeader" type="boolean" defaultValue="true">
+                <caption>Show the header?</caption>
+                <description>Display the pagetitle in a header</description>
+            </property>
+            <property key="closeButtons" type="string" defaultValue="overlay-close-button">
+                <caption>Close button class name</caption>
+                <description>The overlay cannot be closed correctly via close page only. Any button inside the overlay with this class will close the overlay animations after click.</description>
+            </property>
+            <property key="closePage" type="boolean" defaultValue="true">
+                <caption>auto close page?</caption>
+                <description>If the close button should also trigger a 'close page'. Set to false only if you want the animations to visually close the page, but have the context to still be available (if otherwise there is an issue within a mimcroflow). When this option is false, the close page action needs to happen within Mendix. The overlay is only closed visually. </description>
+            </property>
+        </propertyGroup>
+    </properties>
+</widget>
