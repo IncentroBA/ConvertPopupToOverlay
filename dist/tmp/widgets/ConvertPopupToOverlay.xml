@@ -4,7 +4,7 @@
         xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
     <name>Convert Popup To Overlay</name>
-    <description>Convert a regular popup to overlay/drawer style</description>
+    <description>Convert a regular (non-modal) popup layout to overlay / drawer style.</description>
     <icon>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAAEEfUpiAAAACXBIWXMAAAsSAAALEgHS3X78AAABaElEQVRYhe2WsXWDMBCGT9gNBRU1LQygCioGYA4YgAW8AAPAHPTQ0cAC7MAM+EmJeJKAXBQl8XPi7z09gSxO/8m6O5E8z1cAgKZpWAdXeGddV3Wgqip1oCzLtwdmg1LK5vO2s+HoNhzdxqaDMU0TjOMIMg4g7Ca0bcub4KpPyLJMeVc0iP04XSJNU+6f3MxF6lwopTcxtiwLb8MwACEEgiDYexFFEe/jOOY96iaqQdkHGfa/eJ4HXdfZeYmx80GnKIptpK7r3e+ogaOPfteFeZ6V9zAMzQzoH+hYu3B6Do5i44gPXRC54XR1QuxdeLyB/3CURVaX2YrDZwzIk7+kQM7zLBH6vm9mQA4m13XNFfx4ND7ewGk+OIPVC9ZYqcRqBrr4d6QDW14C0DjA0MueAIufvyNAv4+ZYi3gKF0fkSTJdquUsRaApXuM548CuejrsN3BDqO1AOzSgPHKhM97CPu+5+XUCgC4A5bffjJ8AUc/AAAAAElFTkSuQmCC</icon>
     <properties>
         <propertyGroup caption="General">

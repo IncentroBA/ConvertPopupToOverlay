@@ -1,5 +1,5 @@
 ## ConvertPopupToOverlay
-Convert a regular popup to overlay/drawer style
+Convert a regular (non-modal) popup layout to overlay / drawer style.
 
 ## Features
 - Align the overlay to a side of the screen
