@@ -82,3 +82,6 @@
 
 .popup-underlay.visible {opacity: .45}
 .popup-underlay.visible:hover {cursor: pointer;}
+
+
+body.popup-overlay-noscroll {overflow: hidden;}
