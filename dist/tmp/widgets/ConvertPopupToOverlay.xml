@@ -28,21 +28,14 @@
             </property>
             <property key="closeButtonClass" type="string" defaultValue="overlay-close-button">
                 <caption>Close button class name</caption>
-                <description>The overlay cannot be closed correctly via close page only. Any button inside the overlay with this class will close the overlay animations after click.</description>
+                <description>trigger close overlay transitions (does not automatically trigger on close page inside Mendix). Any button inside the overlay with this class will close the overlay animations after click.</description>
             </property>
         </propertyGroup>
         
         <propertyGroup caption="Advanced">
             <property key="closePage" type="boolean" defaultValue="true">
-                <caption>auto close page?</caption>
-                <description>If the close button should also trigger a 'close page'. Set to false only if you want the animations to visually close the page, but have the context to still be available (if otherwise there is an issue within a mimcroflow). When this option is false, the close page action needs to happen within Mendix. The overlay is only closed visually. </description>
-            </property>
-            <property key="closeByAttribute" type="attribute" required="false">
-                <caption>Close trigger</caption>
-                <description>Attribute to have the widget be closed: If true = close overlay. Note: set this boolean to false after the overlay is closed.</description>
-                <attributeTypes>
-                    <attributeType name="Boolean" />
-                </attributeTypes>
+                <caption>Close page</caption>
+                <description>Does a button (defined by Close button class name) need to close the overlay within Mendix?</description>
             </property>
         </propertyGroup>
     </properties>

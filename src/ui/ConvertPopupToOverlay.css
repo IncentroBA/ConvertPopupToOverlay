@@ -54,17 +54,20 @@
 
 .popup-overlay .mx-resizer {display: none;}
 
-.popup-underlay {
+.popup-overlay .popup-underlay {
   background-color: black;
-  height: 100vh;
-  left: 0;
-  position: fixed;
+  bottom: 0;
+  content: '';
+  display: block;
+  left: calc(0px - 100vw);
+  /* opacity: .3; */
   opacity: 0;
-  top: 0;
+  position: fixed;
   transition: opacity .3s cubic-bezier(.23, 1, .32, 1);
-  width: 100vw;
+  top: 0;
+  right: 0;
   will-change: opacity;
-  z-index: 101;
+  z-index: -1;
 }
 
 .popup-overlay--remove-header .modal-header {display: none;}
