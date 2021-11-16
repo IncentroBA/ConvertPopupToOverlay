@@ -10,7 +10,7 @@
         <propertyGroup caption="General">
             <property key="position" type="enumeration" defaultValue="right">
                 <caption>Overlay position</caption>
-                <description>Orientation for the overlay</description>
+                <description>Orientation for the overlay.</description>
                 <enumerationValues>
                     <enumerationValue key="top">top</enumerationValue>
                     <enumerationValue key="right">right</enumerationValue>
@@ -24,18 +24,22 @@
             </property>
             <property key="showHeader" type="boolean" defaultValue="true">
                 <caption>Show the header?</caption>
-                <description>Display the pagetitle in a header</description>
+                <description>Display the pagetitle in a header.</description>
             </property>
             <property key="closeButtonClass" type="string" defaultValue="overlay-close-button">
                 <caption>Close button class name</caption>
-                <description>trigger close overlay transitions (does not automatically trigger on close page inside Mendix). Any button inside the overlay with this class will close the overlay animations after click.</description>
+                <description>trigger visual transitions to close the overlay (does not automatically trigger on close page inside Mendix).</description>
             </property>
         </propertyGroup>
         
         <propertyGroup caption="Advanced">
-            <property key="closePage" type="boolean" defaultValue="true">
-                <caption>Close page</caption>
-                <description>Does a button (defined by Close button class name) need to close the overlay within Mendix?</description>
+            <property key="closeAction" type="action" required="false">
+                <caption>Close action</caption>
+                <description>Custom close action for the overlay when clicking in the gray area next to it.</description>
+            </property>
+            <property key="shouldClosePage" type="boolean" defaultValue="false">
+                <caption>Trigger close page?</caption>
+                <description>Does a button (defined by Close button class name) need to trigger the popup's 'close page' action within Mendix? Set to no if you handle this yourself.</description>
             </property>
         </propertyGroup>
     </properties>
