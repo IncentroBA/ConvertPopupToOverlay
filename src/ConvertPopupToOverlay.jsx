@@ -113,7 +113,7 @@ export default function ConvertPopupToOverlay({
         } else {
             setTimeout(() => {
                 generateCloseBtn();
-                linkCloseButtons();
+                setTimeout(() => linkCloseButtons(), 300);
                 setTimeout(() => underlay && underlay.classList.add("visible"), 300);
                 setTimeout(() => modal && modal.classList.add("transition"), 300);
                 setTimeout(() => modal && modal.classList.add("visible"), 300);
