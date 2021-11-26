@@ -30,6 +30,10 @@
                 <caption>Close button class name</caption>
                 <description>trigger visual transitions to close the overlay (does not automatically trigger on close page inside Mendix).</description>
             </property>
+            <property key="underlayColor" type="string" required="false">
+                <caption>Underlay color</caption>
+                <description>Set the background color for the underlay, for example: green, rgba(255, 0, 0), #BADA55. The underlay is black when not filled.</description>
+            </property>
         </propertyGroup>
         
         <propertyGroup caption="Advanced">

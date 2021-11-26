@@ -6,10 +6,11 @@ import { waitFor } from "./helpers/waitFor";
 export default function ConvertPopupToOverlay({
     closeButtonClass,
     closeAction,
-    shouldClosePage,
     position,
+    shouldClosePage,
     size,
-    showHeader
+    showHeader,
+    underlayColor
 }) {
     const [canRender, setCanRender] = useState(false);
     const [modal, setModal] = useState(null);
@@ -21,67 +22,66 @@ export default function ConvertPopupToOverlay({
         }
     });
 
+    function setUnderlayColor() {
+        underlayColor && document.documentElement.style.setProperty(`--underlay-color`, underlayColor);
+    }
+
+    function removeUnderlay() {
+        const underlay = document.querySelector(".popup-underlay.old");
+        underlay && underlay.classList.remove("visible");
+    }
+
+    function AnimateCloseModal() {
+        const modal = document.querySelector(".popup-overlay");
+        modal && modal.classList.remove("visible");
+        document.body.classList.remove("popup-overlay-noscroll");
+        removeUnderlay();
+    }
+
+    function closeModal() {
+        AnimateCloseModal();
+
+        if (closeAction && closeAction.canExecute) {
+            closeAction.execute();
+        } else if (!closeAction && shouldClosePage === true) {
+            const closeBtn = document.querySelector(".popup-overlay .close");
+            setTimeout(() => closeBtn.click(), 300);
+        }
+    }
+
+    function generateUnderlay() {
+        modal.insertAdjacentHTML("beforeend", '<div class="popup-underlay"></div>');
+        const underlay = document.querySelector(".popup-underlay:not(.old)");
+        underlay && underlay.addEventListener("click", closeModal);
+        underlay && underlay.classList.add("old");
+        return underlay;
+    }
+
+    // overlay for the default close button
+    function generateCloseBtn() {
+        if (showHeader === true && shouldClosePage === true) {
+            const modalContent = modal.querySelector(".modal-content");
+            modalContent.insertAdjacentHTML("afterbegin", `<div class="popup-overlay__closebutton"></div>`);
+            document.querySelector(".popup-overlay__closebutton").addEventListener("click", closeModal);
+        }
+    }
+
+    function linkCloseButtons() {
+        document.querySelectorAll(`.${closeButtonClass}`).forEach(closeBtn => {
+            if (shouldClosePage === true) {
+                closeBtn.addEventListener("click", closeModal);
+            } else {
+                closeBtn.addEventListener("click", AnimateCloseModal);
+            }
+        });
+    }
+
+    // Wait with transitions in case of progressbar
+    function foundProgress() {
+        return true;
+    }
+
     if (canRender) {
-        function removeUnderlay() {
-            const underlay = document.querySelector(".popup-underlay");
-            underlay && underlay.classList.remove("visible");
-
-            if (document.querySelector(".popup-underlay.old:not(.visible)")) {
-                document.querySelector(".popup-underlay.old:not(.visible)").remove();
-            }
-        }
-
-        function AnimateCloseModal() {
-            const modal = document.querySelector(".popup-overlay");
-            modal && modal.classList.remove("visible");
-            document.body.classList.remove("popup-overlay-noscroll");
-            removeUnderlay();
-        }
-
-        function closeModal() {
-            AnimateCloseModal();
-
-            if (closeAction && closeAction.canExecute) {
-                closeAction.execute();
-            } else if (!closeAction && shouldClosePage === true) {
-                const closeBtn = document.querySelector(".popup-overlay .close");
-                setTimeout(() => closeBtn.click(), 300);
-            }
-        }
-
-        function generateUnderlay() {
-            const oldUnderlay = document.querySelector(".popup-underlay");
-
-            if (!oldUnderlay) {
-                removeUnderlay();
-            }
-
-            modal.insertAdjacentHTML("beforeend", '<div class="popup-underlay"></div>');
-            const underlay = document.querySelector(".popup-underlay:not(.old)");
-            underlay && underlay.addEventListener("click", closeModal);
-            underlay && underlay.classList.add("old");
-            return underlay;
-        }
-
-        // overlay for the default close button
-        function generateCloseBtn() {
-            if (showHeader === true && shouldClosePage === true) {
-                const modalContent = modal.querySelector(".modal-content");
-                modalContent.insertAdjacentHTML("afterbegin", `<div class="popup-overlay__closebutton"></div>`);
-                document.querySelector(".popup-overlay__closebutton").addEventListener("click", closeModal);
-            }
-        }
-
-        function linkCloseButtons() {
-            document.querySelectorAll(`.${closeButtonClass}`).forEach(closeBtn => {
-                if (shouldClosePage === true) {
-                    closeBtn.addEventListener("click", closeModal);
-                } else {
-                    closeBtn.addEventListener("click", AnimateCloseModal);
-                }
-            });
-        }
-
         modal.classList.add("popup-overlay", `popup-overlay--${position}`);
 
         setTimeout(() => {
@@ -102,19 +102,16 @@ export default function ConvertPopupToOverlay({
 
         document.body.classList.add("popup-overlay-noscroll");
 
-        // Wait with transitions in case of progressbar
-        function foundProgress() {
-            return true;
-        }
-
+        setUnderlayColor();
+        const underlay = generateUnderlay();
         const progress = waitFor(".mx-progress", foundProgress, document);
+
         if (progress) {
             underlay.classList.remove("visible");
             modal.classList.remove("transition");
             modal.classList.remove("visible");
         } else {
             setTimeout(() => {
-                const underlay = generateUnderlay();
                 generateCloseBtn();
                 linkCloseButtons();
                 setTimeout(() => underlay && underlay.classList.add("visible"), 300);
