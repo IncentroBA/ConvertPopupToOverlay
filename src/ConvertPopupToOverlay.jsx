@@ -34,7 +34,7 @@ export default function ConvertPopupToOverlay({
     function AnimateCloseModal() {
         const modal = document.querySelector(".popup-overlay");
         modal && modal.classList.remove("visible");
-        document.body.classList.remove("popup-overlay-noscroll");
+        setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
         removeUnderlay();
     }
 
