@@ -4,6 +4,7 @@ import { createElement, useEffect, useState } from "react";
 import { waitFor } from "./helpers/waitFor";
 
 export default function ConvertPopupToOverlay({
+    bodyNoScroll,
     closeButtonClass,
     closeAction,
     position,
@@ -34,7 +35,7 @@ export default function ConvertPopupToOverlay({
     function AnimateCloseModal() {
         const modal = document.querySelector(".popup-overlay");
         modal && modal.classList.remove("visible");
-        setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
+        bodyNoScroll === true && setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
         removeUnderlay();
     }
 
@@ -100,7 +101,7 @@ export default function ConvertPopupToOverlay({
             modal.classList.add("popup-overlay--remove-header");
         }
 
-        document.body.classList.add("popup-overlay-noscroll");
+        bodyNoScroll === true && document.body.classList.add("popup-overlay-noscroll");
 
         setUnderlayColor();
         const underlay = generateUnderlay();

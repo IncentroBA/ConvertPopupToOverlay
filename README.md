@@ -16,6 +16,14 @@ Look at this design pattern in Ant design: https://ant.design/components/drawer/
     -   Boolean: `true` or `false`
 -   Set the underlay background color.
 
+### Advanced
+
+-   Close Action (Boolean: `false` by default): Custom close action for the overlay when clicking on the underlay.
+-   Should Close Page (Boolean: `false` by default): Does a button (defined by Close button class name) need to trigger
+    the popup's 'close page' action within Mendix? Set to no if you handle this yourself.
+-   Body No Scroll (Boolean: `true` by default): Avoid scrolling inside the main content when the overlay is active.
+    Note: This option is best set to false in case conditional-visible close/save buttons are used.
+
 ## Usage
 
 -   Place the widget inside a (non-modal) popup layout. This wil by default transform the modal to a right aligned

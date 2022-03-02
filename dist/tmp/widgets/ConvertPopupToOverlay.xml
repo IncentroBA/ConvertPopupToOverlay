@@ -39,11 +39,15 @@
         <propertyGroup caption="Advanced">
             <property key="closeAction" type="action" required="false">
                 <caption>Close action</caption>
-                <description>Custom close action for the overlay when clicking in the gray area next to it.</description>
+                <description>Custom close action for the overlay when clicking on the underlay.</description>
             </property>
             <property key="shouldClosePage" type="boolean" defaultValue="false">
                 <caption>Trigger close page?</caption>
                 <description>Does a button (defined by Close button class name) need to trigger the popup's 'close page' action within Mendix? Set to no if you handle this yourself.</description>
+            </property>
+            <property key="bodyNoScroll" type="boolean" defaultValue="true">
+                <caption>Avoid Body scrolling</caption>
+                <description>Avoid scrolling inside the main content when the overlay is active. Note: This option is best set to false in case conditional-visible close/save buttons are used.</description>
             </property>
         </propertyGroup>
     </properties>
