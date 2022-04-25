@@ -53,8 +53,8 @@ export default function ConvertPopupToOverlay({
     function generateUnderlay() {
         modal.insertAdjacentHTML("beforeend", '<div class="popup-underlay"></div>');
         const underlay = document.querySelector(".popup-underlay:not(.old)");
-        underlay && underlay.addEventListener("click", closeModal);
-        underlay && underlay.classList.add("old");
+        underlay?.addEventListener("click", closeModal);
+        underlay?.classList.add("old");
         return underlay;
     }
 
@@ -63,16 +63,16 @@ export default function ConvertPopupToOverlay({
         if (showHeader === true && shouldClosePage === true) {
             const modalContent = modal.querySelector(".modal-content");
             modalContent.insertAdjacentHTML("afterbegin", `<div class="popup-overlay__closebutton"></div>`);
-            document.querySelector(".popup-overlay__closebutton").addEventListener("click", closeModal);
+            document.querySelector(".popup-overlay__closebutton")?.addEventListener("click", closeModal);
         }
     }
 
     function linkCloseButtons() {
         document.querySelectorAll(`.${closeButtonClass}`).forEach(closeBtn => {
             if (shouldClosePage === true) {
-                closeBtn.addEventListener("click", closeModal);
+                closeBtn?.addEventListener("click", closeModal);
             } else {
-                closeBtn.addEventListener("click", AnimateCloseModal);
+                closeBtn?.addEventListener("click", AnimateCloseModal);
             }
         });
     }
