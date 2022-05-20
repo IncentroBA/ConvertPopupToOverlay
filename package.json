@@ -1,7 +1,7 @@
 {
     "name": "convertpopuptooverlay",
     "widgetName": "ConvertPopupToOverlay",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "description": "Convert a regular popup to overlay/drawer style",
     "copyright": "Incentro 2021",
     "author": "Rob Duits",
@@ -24,7 +24,7 @@
     },
     "license": "MIT",
     "devDependencies": {
-        "@mendix/pluggable-widgets-tools": "^9.11.1"
+        "@mendix/pluggable-widgets-tools": "^9.13.0"
     },
     "dependencies": {
         "classnames": "^2.2.6"
