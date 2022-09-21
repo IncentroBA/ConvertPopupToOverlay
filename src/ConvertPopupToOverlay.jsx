@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-expressions */
 import "./ui/ConvertPopupToOverlay.css";
 import { createElement, useEffect, useState } from "react";
 import { waitFor } from "./helpers/waitFor";
 
 export default function ConvertPopupToOverlay({
-    bodyNoScroll,
     closeButtonClass,
     closeAction,
     position,
@@ -21,6 +19,14 @@ export default function ConvertPopupToOverlay({
             setModal(document.querySelector(".convert-popup-to-overlay").closest(".modal-dialog"));
             setCanRender(true);
         }
+
+        return () => {
+            setTimeout(() => {
+                if (!document.querySelector(".popup-overlay")) {
+                    document.body.classList.remove("popup-overlay-noscroll");
+                }
+            }, 300);
+        };
     });
 
     function setUnderlayColor() {
@@ -35,7 +41,7 @@ export default function ConvertPopupToOverlay({
     function AnimateCloseModal() {
         const modal = document.querySelector(".popup-overlay");
         modal && modal.classList.remove("visible");
-        bodyNoScroll === true && setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
+        setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
         removeUnderlay();
     }
 
@@ -84,7 +90,6 @@ export default function ConvertPopupToOverlay({
 
     if (canRender) {
         modal.classList.add("popup-overlay", `popup-overlay--${position}`);
-
         setTimeout(() => {
             // Set size as width
             if (position === "left" || position === "right") {
@@ -94,15 +99,9 @@ export default function ConvertPopupToOverlay({
             if (position === "top" || position === "bottom") {
                 modal.style.height = `${size}px`;
             }
+            document.body.classList.add("popup-overlay-noscroll");
         }, 100);
-
-        // Show/hide overlay header
-        if (showHeader === false) {
-            modal.classList.add("popup-overlay--remove-header");
-        }
-
-        bodyNoScroll === true && document.body.classList.add("popup-overlay-noscroll");
-
+        showHeader === false && modal.classList.add("popup-overlay--remove-header");
         setUnderlayColor();
         const underlay = generateUnderlay();
         const progress = waitFor(".mx-progress", foundProgress, document);

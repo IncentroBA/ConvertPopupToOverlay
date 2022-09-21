@@ -1,3 +1,12 @@
+/* 
+Used CSS variables
+
+    --background-primary
+    --underlay-color
+    --spacing-smaller
+    --spacing-regular
+
+*/
 .popup-overlay {
     max-height: 100vh;
     max-width: 100vw;
@@ -51,6 +60,7 @@
 }
 
 .popup-overlay.popup-overlay .modal-content {
+    background-color: var(--background-primary, white);
     border: 0;
     border-radius: 0;
     box-shadow: none;
@@ -88,6 +98,21 @@
 }
 .popup-overlay__closebutton:hover {
     cursor: pointer;
+}
+
+.popup-overlay .mx-placeholder {display: contents;}
+
+.popup-overlay__content {
+    padding-inline: var(--spacing-regular, 16px);
+}
+
+.popup-overlay__footer {
+    background-color: var(--background-primary, white);
+    inset-block-end: 0;
+    padding-block: var(--spacing-smaller, 8px);
+    padding-inline: var(--spacing-regular, 16px);
+    position: sticky;
+    z-index: 2;
 }
 
 .popup-underlay.visible {
