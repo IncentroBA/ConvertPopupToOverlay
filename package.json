@@ -1,7 +1,7 @@
 {
     "name": "convertpopuptooverlay",
     "widgetName": "ConvertPopupToOverlay",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Convert a regular popup to overlay/drawer style",
     "copyright": "2022 Incentro International B.V.",
     "author": "Rob Duits",
