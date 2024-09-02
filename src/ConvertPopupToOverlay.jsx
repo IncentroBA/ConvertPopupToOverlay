@@ -3,16 +3,18 @@ import { createElement, useEffect, useState } from "react";
 import { waitFor } from "./helpers/waitFor";
 
 export default function ConvertPopupToOverlay({
-    closeButtonClass,
     closeAction,
+    closeButtonClass,
+    overlayStyle,
     position,
     shouldClosePage,
-    size,
     showHeader,
+    size,
     underlayColor
 }) {
     const [canRender, setCanRender] = useState(false);
     const [modal, setModal] = useState(null);
+    const page = document.querySelector(".mx-page");
 
     useEffect(() => {
         if (document.querySelector(".convert-popup-to-overlay")) {
@@ -20,13 +22,7 @@ export default function ConvertPopupToOverlay({
             setCanRender(true);
         }
 
-        return () => {
-            setTimeout(() => {
-                if (!document.querySelector(".popup-overlay")) {
-                    document.body.classList.remove("popup-overlay-noscroll");
-                }
-            }, 300);
-        };
+        return () => {};
     });
 
     function setUnderlayColor() {
@@ -40,8 +36,12 @@ export default function ConvertPopupToOverlay({
 
     function AnimateCloseModal() {
         const modal = document.querySelector(".popup-overlay");
-        modal && modal.classList.remove("visible");
-        setTimeout(() => document.body.classList.remove("popup-overlay-noscroll"), 100);
+        overlayStyle === "push" ? (page.style.transform = `translate(0px)`) : null;
+        if (overlayStyle === "push") {
+            setTimeout(() => modal && modal.classList.remove("visible"), 400);
+        } else {
+            modal && modal.classList.remove("visible");
+        }
         removeUnderlay();
     }
 
@@ -89,36 +89,64 @@ export default function ConvertPopupToOverlay({
     }
 
     if (canRender) {
-        modal.classList.add("popup-overlay", `popup-overlay--${position}`);
         setTimeout(() => {
-            // Set size as width
-            if (position === "left" || position === "right") {
-                modal.style.width = `${size}px`;
-            }
-            // Set size as height
-            if (position === "top" || position === "bottom") {
-                modal.style.height = `${size}px`;
-            }
-            document.body.classList.add("popup-overlay-noscroll");
-        }, 100);
-        showHeader === false && modal.classList.add("popup-overlay--remove-header");
-        setUnderlayColor();
-        const underlay = generateUnderlay();
-        const progress = waitFor(".mx-progress", foundProgress, document);
+            modal.classList.add("popup-overlay", `popup-overlay--${position}`);
 
-        if (progress) {
-            underlay.classList.remove("visible");
-            modal.classList.remove("transition");
-            modal.classList.remove("visible");
-        } else {
+            if (overlayStyle === "push") {
+                page.classList.add("mx-page--push");
+            }
+
             setTimeout(() => {
-                generateCloseBtn();
-                setTimeout(() => linkCloseButtons(), 300);
-                underlay && underlay.classList.add("visible");
-                setTimeout(() => modal && modal.classList.add("transition"), 100);
-                setTimeout(() => modal && modal.classList.add("visible"), 100);
-            }, 200);
-        }
+                // Set size as width
+                if (position === "left" || position === "right") {
+                    modal.style.width = `${size}px`;
+                }
+                // Set size as height
+                if (position === "top" || position === "bottom") {
+                    modal.style.height = `${size}px`;
+                }
+            }, 100);
+            showHeader === false && modal.classList.add("popup-overlay--remove-header");
+            setUnderlayColor();
+            const underlay = generateUnderlay();
+            const progress = waitFor(".mx-progress", foundProgress, document);
+
+            if (progress) {
+                underlay.classList.remove("visible");
+                modal.classList.remove("transition");
+                modal.classList.remove("visible");
+            } else {
+                setTimeout(() => {
+                    generateCloseBtn();
+                    setTimeout(() => linkCloseButtons(), 300);
+                    if (overlayStyle === "over") {
+                        underlay && underlay.classList.add("visible");
+                    } else {
+                        underlay && underlay.classList.add("hidden");
+                    }
+
+                    if (overlayStyle !== "push") {
+                        setTimeout(() => modal && modal.classList.add("transition"), 100);
+                    }
+                    setTimeout(() => modal && modal.classList.add("visible"), 100);
+
+                    if (overlayStyle === "push") {
+                        if (position === "left") {
+                            page.style.transform = `translateX(${size}px)`;
+                        }
+                        if (position === "right") {
+                            page.style.transform = `translateX(-${size}px)`;
+                        }
+                        if (position === "top") {
+                            page.style.transform = `translateY(${size}px)`;
+                        }
+                        if (position === "bottom") {
+                            page.style.transform = `translateY(-${size}px)`;
+                        }
+                    }
+                }, 200);
+            }
+        }, 2);
 
         return null;
     } else {

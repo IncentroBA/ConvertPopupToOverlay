@@ -29,6 +29,7 @@ Used CSS variables
     left: auto !important;
     transform: translateX(100%);
 }
+
 .popup-overlay--bottom {
     top: auto !important;
     right: 0 !important;
@@ -37,6 +38,7 @@ Used CSS variables
     width: 100vw !important;
     transform: translateY(100%);
 }
+
 .popup-overlay--left {
     height: 100vh !important;
     top: 0 !important;
@@ -47,11 +49,11 @@ Used CSS variables
 }
 
 .popup-overlay.transition {
-    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: transform 0.2s ease-in-out;
     will-change: transition;
 }
 
-.popup-overlay.transition.visible {
+.popup-overlay.visible {
     transform: translate(0%, 0%);
 }
 
@@ -78,7 +80,7 @@ Used CSS variables
     left: calc(0px - 100vw);
     opacity: 0;
     position: fixed;
-    transition: opacity 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: opacity 0.2s ease-in-out;
     top: calc(0px - 100vh);
     right: calc(0px - 100vw);
     will-change: opacity;
@@ -96,11 +98,14 @@ Used CSS variables
     top: 0;
     width: 50px;
 }
+
 .popup-overlay__closebutton:hover {
     cursor: pointer;
 }
 
-.popup-overlay .mx-placeholder {display: contents;}
+.popup-overlay .mx-placeholder {
+    display: contents;
+}
 
 .popup-overlay__content {
     padding-inline: var(--spacing-regular, 16px);
@@ -127,10 +132,24 @@ Used CSS variables
 .popup-underlay.visible {
     opacity: 0.45;
 }
+
 .popup-underlay.visible:hover {
     cursor: pointer;
 }
 
-body.popup-overlay-noscroll {
+body:has(.popup-overlay) {
     overflow: hidden;
+}
+
+
+/* Inside the overlay, the combo box widget gets confused in it's left property */
+.popup-overlay .widget-combobox .widget-combobox-menu {
+    left: unset !important;
+}
+
+.mx-page.mx-page--push {
+    position: relative;
+    transition: transform 0.4s ease-in-out;
+    will-change: transition;
+    z-index: 9999;
 }
