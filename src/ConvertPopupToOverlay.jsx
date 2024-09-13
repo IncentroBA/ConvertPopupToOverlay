@@ -7,6 +7,7 @@ export default function ConvertPopupToOverlay({
     closeButtonClass,
     overlayStyle,
     position,
+    renderUnderlay,
     shouldClosePage,
     showHeader,
     size,
@@ -32,13 +33,20 @@ export default function ConvertPopupToOverlay({
     function removeUnderlay() {
         const underlay = document.querySelector(".popup-underlay.old");
         underlay && underlay.classList.remove("visible");
+        setTimeout(() => {
+            console.info("remove underlay from mx-page");
+            document.querySelector(".mx-page > .popup-underlay")?.remove();
+        }, 300);
     }
 
     function AnimateCloseModal() {
         const modal = document.querySelector(".popup-overlay");
         overlayStyle === "push" ? (page.style.transform = `translate(0px)`) : null;
         if (overlayStyle === "push") {
-            setTimeout(() => modal && modal.classList.remove("visible"), 400);
+            setTimeout(() => {
+                modal && modal.classList.remove("visible");
+                page.classList.remove("mx-page--push");
+            }, 400);
         } else {
             modal && modal.classList.remove("visible");
         }
@@ -57,7 +65,11 @@ export default function ConvertPopupToOverlay({
     }
 
     function generateUnderlay() {
-        modal.insertAdjacentHTML("beforeend", '<div class="popup-underlay"></div>');
+        if (overlayStyle === "push") {
+            page.insertAdjacentHTML("afterbegin", '<div class="popup-underlay"></div>');
+        } else {
+            modal.insertAdjacentHTML("beforeend", '<div class="popup-underlay"></div>');
+        }
         const underlay = document.querySelector(".popup-underlay:not(.old)");
         underlay?.addEventListener("click", closeModal);
         underlay?.classList.add("old");
@@ -119,7 +131,7 @@ export default function ConvertPopupToOverlay({
                 setTimeout(() => {
                     generateCloseBtn();
                     setTimeout(() => linkCloseButtons(), 300);
-                    if (overlayStyle === "over") {
+                    if (renderUnderlay === true) {
                         underlay && underlay.classList.add("visible");
                     } else {
                         underlay && underlay.classList.add("hidden");
@@ -133,15 +145,19 @@ export default function ConvertPopupToOverlay({
                     if (overlayStyle === "push") {
                         if (position === "left") {
                             page.style.transform = `translateX(${size}px)`;
+                            underlay.classList.add("popup-underlay--left");
                         }
                         if (position === "right") {
                             page.style.transform = `translateX(-${size}px)`;
+                            underlay.classList.add("popup-underlay--right");
                         }
                         if (position === "top") {
                             page.style.transform = `translateY(${size}px)`;
+                            underlay.classList.add("popup-underlay--top");
                         }
                         if (position === "bottom") {
                             page.style.transform = `translateY(-${size}px)`;
+                            underlay.classList.add("popup-underlay--bottom");
                         }
                     }
                 }, 200);

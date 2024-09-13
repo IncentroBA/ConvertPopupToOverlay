@@ -47,11 +47,15 @@
             </property>
             <property key="overlayStyle" type="enumeration" defaultValue="over">
                 <caption>Overlay style</caption>
-                <description>The way that the overlay comes in. Push content aside will remove the underlay.</description>
+                <description>The way that the overlay comes in.</description>
                 <enumerationValues>
                     <enumerationValue key="over">Overlay</enumerationValue>
                     <enumerationValue key="push">Push content aside</enumerationValue>
                 </enumerationValues>
+            </property>
+            <property key="renderUnderlay" type="boolean" defaultValue="true">
+                <caption>Render underlay?</caption>
+                <description>Render the region that can be clicked on for also closing the overlay.</description>
             </property>
         </propertyGroup>
     </properties>

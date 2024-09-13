@@ -54,7 +54,7 @@ Used CSS variables
 }
 
 .popup-overlay.visible {
-    transform: translate(0%, 0%);
+    transform: unset;
 }
 
 .popup-overlay .modal-header {
@@ -70,21 +70,6 @@ Used CSS variables
 
 .popup-overlay .mx-resizer {
     display: none;
-}
-
-.popup-overlay .popup-underlay {
-    background-color: var(--underlay-color, black);
-    bottom: calc(0px - 100vh);
-    content: "";
-    display: block;
-    left: calc(0px - 100vw);
-    opacity: 0;
-    position: fixed;
-    transition: opacity 0.2s ease-in-out;
-    top: calc(0px - 100vh);
-    right: calc(0px - 100vw);
-    will-change: opacity;
-    z-index: -1;
 }
 
 .popup-overlay--remove-header .modal-header {
@@ -129,6 +114,41 @@ Used CSS variables
     z-index: 2;
 }
 
+.popup-underlay {
+    background-color: var(--underlay-color, black);
+    bottom: calc(0px - 100vh);
+    content: "";
+    display: block;
+    left: calc(0px - 100vw);
+    opacity: 0;
+    position: fixed;
+    transition: opacity 0.2s ease-in-out;
+    top: calc(0px - 100vh);
+    right: calc(0px - 100vw);
+    will-change: opacity;
+    z-index: -1;
+}
+
+.mx-page > .popup-underlay {
+    z-index: 100;
+}
+
+.popup-underlay--left {
+    left: 0vw;
+}
+
+.popup-underlay--right {
+    right: 0vw;
+}
+
+.popup-underlay--top {
+    top: 0vh;
+}
+
+.popup-underlay--bottom {
+    bottom: 0vh;
+}
+
 .popup-underlay.visible {
     opacity: 0.45;
 }
@@ -139,12 +159,6 @@ Used CSS variables
 
 body:has(.popup-overlay) {
     overflow: hidden;
-}
-
-
-/* Inside the overlay, the combo box widget gets confused in it's left property */
-.popup-overlay .widget-combobox .widget-combobox-menu {
-    left: unset !important;
 }
 
 .mx-page.mx-page--push {
