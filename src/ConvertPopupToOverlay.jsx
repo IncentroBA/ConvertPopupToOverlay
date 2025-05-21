@@ -34,7 +34,6 @@ export default function ConvertPopupToOverlay({
         const underlay = document.querySelector(".popup-underlay.old");
         underlay && underlay.classList.remove("visible");
         setTimeout(() => {
-            console.info("remove underlay from mx-page");
             document.querySelector(".mx-page > .popup-underlay")?.remove();
         }, 300);
     }
