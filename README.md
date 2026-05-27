@@ -24,6 +24,9 @@ The widget makes use of a few CSS variables for easy styling overrides:<br /> `-
 -   Close Action (Boolean: `false` by default): Custom close action for the overlay when clicking on the underlay.
 -   Should Close Page (Boolean: `false` by default): Does a button (defined by Close button class name) need to trigger
     the popup's 'close page' action within Mendix? Set to no if you handle this yourself.
+-   Overlay style (Enum: `Overlay` or `Push content aside`).
+-   Render underlay (Boolean: `true` by default): Render the region that can be clicked on for closing the overlay.
+-   Become a drawer on mobile (Boolean: `false` by default): Render the overlay as bottom drawer on mobile screens (until 991px). Including handle to slide down to close.
 
 ## Usage
 

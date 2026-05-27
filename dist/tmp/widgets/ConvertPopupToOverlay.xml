@@ -57,6 +57,10 @@
                 <caption>Render underlay?</caption>
                 <description>Render the region that can be clicked on for also closing the overlay.</description>
             </property>
+            <property key="renderAsDrawer" type="boolean" defaultValue="false">
+                <caption>Become drawer on mobile</caption>
+                <description>Render the overlay as bottom drawer on mobile. Including handle to slide back down.</description>
+            </property>
         </propertyGroup>
     </properties>
 </widget>

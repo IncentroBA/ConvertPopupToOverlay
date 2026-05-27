@@ -1,5 +1,5 @@
 import "./ui/ConvertPopupToOverlay.css";
-import { createElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { waitFor } from "./helpers/waitFor";
 
 export default function ConvertPopupToOverlay({
@@ -7,6 +7,7 @@ export default function ConvertPopupToOverlay({
     closeButtonClass,
     overlayStyle,
     position,
+    renderAsDrawer,
     renderUnderlay,
     shouldClosePage,
     showHeader,
@@ -26,11 +27,11 @@ export default function ConvertPopupToOverlay({
         return () => {};
     });
 
-    function setUnderlayColor() {
+    const setUnderlayColor = () => {
         underlayColor && document.documentElement.style.setProperty(`--underlay-color`, underlayColor);
     }
 
-    function removeUnderlay() {
+    const removeUnderlay = () => {
         const underlay = document.querySelector(".popup-underlay.old");
         underlay && underlay.classList.remove("visible");
         setTimeout(() => {
@@ -38,7 +39,7 @@ export default function ConvertPopupToOverlay({
         }, 300);
     }
 
-    function AnimateCloseModal() {
+    const AnimateCloseModal = () => {
         const modal = document.querySelector(".popup-overlay");
         overlayStyle === "push" ? (page.style.transform = `translate(0px)`) : null;
         if (overlayStyle === "push") {
@@ -52,7 +53,7 @@ export default function ConvertPopupToOverlay({
         removeUnderlay();
     }
 
-    function closeModal() {
+    const closeModal = () => {
         AnimateCloseModal();
 
         if (closeAction && closeAction.canExecute) {
@@ -63,7 +64,7 @@ export default function ConvertPopupToOverlay({
         }
     }
 
-    function generateUnderlay() {
+    const generateUnderlay = () => {
         if (overlayStyle === "push") {
             page.insertAdjacentHTML("afterbegin", '<div class="popup-underlay"></div>');
         } else {
@@ -76,7 +77,7 @@ export default function ConvertPopupToOverlay({
     }
 
     // overlay for the default close button
-    function generateCloseBtn() {
+    const generateCloseBtn = () => {
         if (showHeader === true && shouldClosePage === true) {
             const modalContent = modal.querySelector(".modal-content");
             modalContent.insertAdjacentHTML("afterbegin", `<div class="popup-overlay__closebutton"></div>`);
@@ -84,7 +85,7 @@ export default function ConvertPopupToOverlay({
         }
     }
 
-    function linkCloseButtons() {
+    const linkCloseButtons = () => {
         document.querySelectorAll(`.${closeButtonClass}`).forEach(closeBtn => {
             if (shouldClosePage === true) {
                 closeBtn?.addEventListener("click", closeModal);
@@ -94,14 +95,119 @@ export default function ConvertPopupToOverlay({
         });
     }
 
+    const createDrawerHandle = () => {
+        if (!renderAsDrawer) return;
+        
+        const modalContent = modal.querySelector(".modal-content");
+        const handle = document.createElement("div");
+        handle.className = "popup-overlay__drawer-handle";
+        modalContent.insertAdjacentElement("afterbegin", handle);
+        return handle;
+    }
+
+    const setupDrawerDrag = () => {
+        if (!renderAsDrawer) return;
+        
+        const modalOverlay = document.querySelector(".popup-overlay");
+        const underlay = document.querySelector(".popup-underlay");
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        const getDragThreshold = () => window.innerHeight / 2;
+
+        const handleMouseDown = (event) => {
+             isDragging = true;
+             startY = event.clientY;
+             currentY = 0;
+             modalOverlay.classList.add("popup-overlay--dragging");
+         };
+
+        const handleMouseMove = (event) => {
+            if (!isDragging) return;
+            
+            currentY = event.clientY - startY;
+            if (currentY > 0) {
+                 modalOverlay.style.transform = `translateY(${currentY}px)`;
+                const opacity = Math.max(0, 1 - currentY / window.innerHeight);
+                if (underlay) {
+                    underlay.style.opacity = opacity;
+                }
+             }
+        };
+
+        const handleMouseUp = () => {
+            isDragging = false;
+            modalOverlay.classList.remove("popup-overlay--dragging");
+            
+            if (currentY > getDragThreshold()) {
+                closeModal();
+            } else {
+                modalOverlay.style.transform = "";
+                if (underlay) {
+                    underlay.style.opacity = "";
+                }
+            }
+        };
+
+        // Add listeners to modal content for drag initiation
+        const modalContent = modalOverlay.querySelector(".modal-content");
+        modalContent?.addEventListener("mousedown", handleMouseDown);
+        
+        // Add listeners to the drawer handle for drag initiation
+        const handle = modalOverlay.querySelector(".popup-overlay__drawer-handle");
+        handle?.addEventListener("mousedown", handleMouseDown);
+        handle?.addEventListener("mousemove", handleMouseMove);
+        handle?.addEventListener("mouseup", handleMouseUp);
+
+        // Touch events for mobile
+        const handleTouchStart = (event) => {
+            isDragging = true;
+            startY = event.touches[0].clientY;
+            currentY = 0;
+            modalOverlay.classList.add("popup-overlay--dragging");
+        };
+
+        const handleTouchMove = (event) => {
+            if (!isDragging) return;
+            
+            currentY = event.touches[0].clientY - startY;
+            if (currentY > 0) {
+                modalOverlay.style.transform = `translateY(${currentY}px)`;
+                const opacity = Math.max(0, 1 - currentY / getDragThreshold());
+                if (underlay) {
+                    underlay.style.opacity = opacity;
+                }
+             }
+        };
+
+        const handleTouchEnd = () => {
+            isDragging = false;
+            modalOverlay.classList.remove("popup-overlay--dragging");
+            
+            if (currentY > getDragThreshold()) {
+                closeModal();
+            } else {
+                modalOverlay.style.transform = "";
+            }
+        };
+
+        modalContent?.addEventListener("touchstart", handleTouchStart);
+        handle?.addEventListener("touchstart", handleTouchStart);
+        handle?.addEventListener("touchmove", handleTouchMove);
+        handle?.addEventListener("touchend", handleTouchEnd);
+    }
+
     // Wait with transitions in case of progressbar
-    function foundProgress() {
+    const foundProgress = () => {
         return true;
     }
 
     if (canRender) {
         setTimeout(() => {
-            modal.classList.add("popup-overlay", `popup-overlay--${position}`);
+            const drawerClass = renderAsDrawer ? "popup-overlay--drawer" : "";
+
+            modal.classList.add("popup-overlay", `popup-overlay--${position}`, drawerClass);
 
             if (overlayStyle === "push") {
                 page.classList.add("mx-page--push");
@@ -130,6 +236,12 @@ export default function ConvertPopupToOverlay({
                 setTimeout(() => {
                     generateCloseBtn();
                     setTimeout(() => linkCloseButtons(), 300);
+
+                    if (renderAsDrawer) {
+                        createDrawerHandle();
+                        setupDrawerDrag();
+                    }
+                    
                     if (renderUnderlay === true) {
                         underlay && underlay.classList.add("visible");
                     } else {
