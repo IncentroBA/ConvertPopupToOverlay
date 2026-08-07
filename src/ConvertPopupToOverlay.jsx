@@ -205,9 +205,10 @@ export default function ConvertPopupToOverlay({
 
     if (canRender) {
         setTimeout(() => {
-            const drawerClass = renderAsDrawer ? "popup-overlay--drawer" : "";
-
-            modal.classList.add("popup-overlay", `popup-overlay--${position}`, drawerClass);
+            modal.classList.add("popup-overlay", `popup-overlay--${position}`);
+            if (renderAsDrawer) {
+                modal.classList.add("popup-overlay--drawer");
+            }
 
             if (overlayStyle === "push") {
                 page.classList.add("mx-page--push");
