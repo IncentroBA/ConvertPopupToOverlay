@@ -57,7 +57,8 @@ export default function ConvertPopupToOverlay({
         AnimateCloseModal();
 
         if (closeAction && closeAction.canExecute) {
-            closeAction.execute();
+            const closeBtn = document.querySelector(".popup-overlay .close");
+            setTimeout(() => closeAction.execute(), 300);
         } else if (!closeAction && shouldClosePage === true) {
             const closeBtn = document.querySelector(".popup-overlay .close");
             setTimeout(() => closeBtn.click(), 300);
